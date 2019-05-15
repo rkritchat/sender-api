@@ -1,9 +1,19 @@
 import { UserModel } from "../models/UserModel"
 import { findByUsernameAndPassword } from "../dao/userDao"
 
-const login = async (username, password) => {
-  const rs = await findByUsernameAndPassword(username, password)
-  return new UserModel(rs.firstname, rs.lastname)
+module.exports = {
+  login: async (req, res, next) => {
+    try {
+      const { username, password } = req.body
+      const result = await findByUsernameAndPassword(username, password)
+      console.log(result);
+      res.send(result)
+    } catch (e) {
+      errorResult(res, e)
+    }
+  }
 }
 
-module.exports.login = login
+const errorResult = (res, e) => {
+  res.status(400).send(e)
+}
