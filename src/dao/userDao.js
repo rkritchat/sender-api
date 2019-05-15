@@ -8,7 +8,6 @@ export const findByUsernameAndPassword = (username, password) => {
         const result = userInfo.filter(e => {
             if (_.isEqual(e.username, username) && _.isEqual(e.password, password)) return e
         })
-        console.log('resut is ', result);
         return (!_.isEmpty(result)) ? reslove(result) : reject('Invalid username or password')
     })
 }
