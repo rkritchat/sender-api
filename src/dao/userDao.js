@@ -1,4 +1,5 @@
 import _ from 'underscore'
+import mongoose from 'mongoose'
 
 const userInfo = [
     { username: 'rkrtichat', password: '1234', firstname: 'Krithcat', lastname: 'Rojaanphruk' },

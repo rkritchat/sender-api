@@ -1,10 +1,15 @@
 import express from "express";
 import morgan from "morgan";
+import mongoose from "mongoose";
 import user from "./routes/user";
 import "dotenv/config";
 
 const app = express();
 const port = process.env.PORT;
+
+mongoose.connect(process.env.DATABASE_URI, { useNewUrlParser: true })
+  .then(() => console.debug('connected db'))
+  .catch((e) => console.log('Could not connect db', e))
 
 app.use(express.json())
 app.use("/user", user);
