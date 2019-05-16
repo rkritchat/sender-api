@@ -1,15 +1,9 @@
 export class UserModel {
 
-  constructor(name, lastname) {
-    this.name = name;
-    this.lastname = lastname;
+  constructor(userInfo) {
+    this.firstname = userInfo.firstname
+    this.lastname = userInfo.lastname
+    this.email = userInfo.email
   }
 
-  setName(name) {
-    this.name = name;
-  }
-
-  getName() {
-    return this.name;
-  }
 }

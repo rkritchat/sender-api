@@ -17,3 +17,11 @@ export const findByUsernameAndPassword = (username, password) => {
         return (!_.isEmpty(result)) ? reslove(result.pop()) : reject('Invalid username or password')
     })
 }
+
+export const save = () => {
+    return new Promise(reslove => {
+        // userInfo.push({
+        //     username:
+        // })
+    })
+}
