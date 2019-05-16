@@ -1,4 +1,5 @@
 import _ from 'underscore'
+import mongoose from 'mongoose'
 
 const taskInfo = [
     {
@@ -15,11 +16,23 @@ const taskInfo = [
     }
 ]
 
+const schema = mongoose.Schema({
+    username: String,
+    task: { taskName: String, taskDesc: String, taskProgress: String, taskCreateDate: { type: Date, default: Date.now } }
+})
+
+const TaskInfo = new mongoose.model('taskInfo', schema, 'taskInfo')
+
 export const findByUsername = (username) => {
-    return new Promise(reslove => {
-        const result = taskInfo.filter(e => {
-            if (e.username === username) return e
-        })
-        reslove(result[0])
-    })
+    return TaskInfo.find({ username })
+}
+
+export const findById = (id) => {
+    return TaskInfo.find({ "_id": id })
+}
+
+export const save = (body) => {
+    const { username, task } = body
+    const taskInfo = new TaskInfo({ username, task })
+    return taskInfo.save()
 }

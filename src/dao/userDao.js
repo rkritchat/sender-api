@@ -1,28 +1,23 @@
 import _ from 'underscore'
 import mongoose from 'mongoose'
 
-const userInfo = [
-    { username: 'rkrtichat', password: '1234', firstname: 'Krithcat', lastname: 'Rojaanphruk' },
-    { username: 'admin', password: 'admin', firstname: 'Jonh', lastname: 'Doe' }
-]
+const schema = mongoose.Schema({
+    username: String,
+    password: String,
+    firstname: String,
+    lastname: String,
+    email: String
+})
 
-const isUsernamePasswordMath = (e, username, password) => {
-    return (_.isEqual(e.username, username) && _.isEqual(e.password, password))
-}
+const UserInfo = new mongoose.model('userInfo', schema, 'userInfo')
+
 
 export const findByUsernameAndPassword = (username, password) => {
-    return new Promise((reslove, reject) => {
-        const result = userInfo.filter(e => {
-            if (isUsernamePasswordMath(e, username, password)) return e
-        })
-        return (!_.isEmpty(result)) ? reslove(result.pop()) : reject('Invalid username or password')
-    })
+    return UserInfo.find({ username, password }).limit(1)
 }
 
-export const save = () => {
-    return new Promise(reslove => {
-        // userInfo.push({
-        //     username:
-        // })
-    })
+export const save = (body) => {
+    const { username, password, firstname, lastname, email } = body
+    const userInfo = new UserInfo({ username, password, firstname, lastname, email })
+    return userInfo.save()
 }
