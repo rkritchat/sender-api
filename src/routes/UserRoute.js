@@ -2,6 +2,7 @@ const express = require('express')
 const userService = require('../services/UserService')
 
 class UserRoute {
+
     constructor() {
         this.router = express.Router()
         this.router.route("/login").post(userService.login)

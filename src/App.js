@@ -5,29 +5,37 @@ const dotenv = require('dotenv')
 const UserRoute = require('./routes/UserRoute')
 const TaskRoute = require('./routes/TaskRoute')
 
-// import user from "./routes/user";
-// import task from "./routes/task";
-// import "dotenv/config";
-class Index {
-  constructor() {
-    this.userRoute = new UserRoute()
-    this.taskRoute = new TaskRoute()
+class App {
 
+  constructor() {
     this.app = express()
-    this.port = 3400 //process.env.PORT;
+    this.initConfig()
+    this.initRoute()
+    this.connectDb()
+    this.handle404()
+    this.handleException()
+  }
+
+  initConfig() {
+    dotenv.config()
+  }
+
+  initRoute() {
     this.app.use(express.json())
-    this.app.use("/user", this.userRoute.route())
-    this.app.use("/task", this.taskRoute.route())
+    this.app.use("/user", new UserRoute().route())
+    this.app.use("/task", new TaskRoute().route())
     this.app.use(morgan('tiny'))
-    mongoose.connect('mongodb://172.17.0.2:27017/sender', { useNewUrlParser: true })
-    //process.env.DATABASE_URI
+  }
+
+  handle404() {
     this.app.use((req, res, next) => {
       const err = new Error('Not found ')
       err.status = 404
       next(err)
     })
+  }
 
-    //init response json
+  handleException() {
     this.app.use((err, req, res, next) => {
       const error = this.app.get('env') === 'development' ? err : {}
       const status = err.status || 500
@@ -38,12 +46,19 @@ class Index {
         }
       })
     })
+  }
 
-    this.app.listen(this.port, () => {
-      console.log("Listening on port", this.port);
+  connectDb() {
+    mongoose.connect(process.env.DATABASE_URI, { useNewUrlParser: true })
+  }
+
+  start() {
+    const port = process.env.PORT
+    this.app.listen(port, () => {
+      console.log("Listening on port", port);
     });
-
   }
 }
 
-const index = new Index()
+const app = new App()
+app.start()
