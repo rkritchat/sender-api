@@ -1,5 +1,5 @@
 const express = require('express')
-const userService = require('../services/UserService')
+const UserService = require('../services/UserService')
 
 class UserRoute {
 
@@ -9,6 +9,7 @@ class UserRoute {
     }
 
     initRouter() {
+        const userService = new UserService()
         this.router.route("/login").post(userService.login)
         this.router.route("/register").post(userService.register)
         this.router.route("/modify").post(userService.modify)
