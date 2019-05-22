@@ -1,9 +1,6 @@
 const _ = require('underscore')
 const mongoose = require('mongoose')
 
-// import _ from 'underscore'
-// import mongoose from 'mongoose'
-
 // const taskInfo = [
 //     {
 //         username: 'rkrtichat', task: [
@@ -31,11 +28,11 @@ class TaskDao {
     }
 
     findByUsername(username) {
-        return this.taskDao.find({ username })
+        return this.TaskInfo.find({ username })
     }
 
     findById(id) {
-        return this.taskDao.find({ "_id": id })
+        return this.TaskInfo.find({ "_id": id })
     }
 
     save(body) {
