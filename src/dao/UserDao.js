@@ -18,6 +18,10 @@ class UserDao {
         return this.UserInfo.find({ username, password }).limit(1)
     }
 
+    findByUsername(username) {
+        return this.UserInfo.find({ username })
+    }
+
     save(body) {
         const { username, password, firstname, lastname, email } = body
         const userDao = new this.UserInfo({ username, password, firstname, lastname, email })

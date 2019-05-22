@@ -5,6 +5,10 @@ class UserRoute {
 
     constructor() {
         this.router = express.Router()
+        this.initRouter()
+    }
+
+    initRouter() {
         this.router.route("/login").post(userService.login)
         this.router.route("/register").post(userService.register)
         this.router.route("/modify").post(userService.modify)
