@@ -1,39 +1,49 @@
-import express from "express";
-import morgan from "morgan";
-import mongoose from "mongoose";
-import user from "./routes/user";
-import task from "./routes/task";
-import "dotenv/config";
+const express = require('express')
+const morgan = require('morgan')
+const mongoose = require('mongoose')
+const dotenv = require('dotenv')
+const UserRoute = require('./routes/UserRoute')
+const TaskRoute = require('./routes/TaskRoute')
 
-const app = express();
-const port = process.env.PORT;
+// import user from "./routes/user";
+// import task from "./routes/task";
+// import "dotenv/config";
+class Index {
+  constructor() {
+    this.userRoute = new UserRoute()
+    this.taskRoute = new TaskRoute()
 
-mongoose.connect(process.env.DATABASE_URI, { useNewUrlParser: true })
+    this.app = express()
+    this.port = 3400 //process.env.PORT;
+    this.app.use(express.json())
+    this.app.use("/user", this.userRoute.route())
+    this.app.use("/task", this.taskRoute.route())
+    this.app.use(morgan('tiny'))
+    mongoose.connect('mongodb://172.17.0.2:27017/sender', { useNewUrlParser: true })
+    //process.env.DATABASE_URI
+    this.app.use((req, res, next) => {
+      const err = new Error('Not found ')
+      err.status = 404
+      next(err)
+    })
 
-app.use(express.json())
-app.use("/user", user)
-app.use("/task", task)
-app.use(morgan('tiny'))
+    //init response json
+    this.app.use((err, req, res, next) => {
+      const error = this.app.get('env') === 'development' ? err : {}
+      const status = err.status || 500
 
-//Add error when enpoint not found
-app.use((req, res, next) => {
-  const err = new Error('Not found ')
-  err.status = 404
-  next(err)
-})
+      res.status(status).json({
+        error: {
+          message: error.message
+        }
+      })
+    })
 
-//init response json
-app.use((err, req, res, next) => {
-  const error = app.get('env') === 'development' ? err : {}
-  const status = err.status || 500
+    this.app.listen(this.port, () => {
+      console.log("Listening on port", this.port);
+    });
 
-  res.status(status).json({
-    error: {
-      message: error.message
-    }
-  })
-})
+  }
+}
 
-app.listen(port, () => {
-  console.log("Listening on port", port);
-});
+const index = new Index()

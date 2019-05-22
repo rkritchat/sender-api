@@ -1,17 +1,18 @@
-import { findByUsername } from "../dao/taskDao"
-import { findByUsernameAndPassword } from "../dao/userDao"
-import { save } from "../dao/userDao"
-
-import { TaskModel } from "../models/TaskModel"
-import { UserModel } from "../models/UserModel"
+const UserDao = require('../dao/UserDao')
+const UserModel = require('../models/UserModel')
+const userDao = new UserDao()
 
 module.exports = {
+
+  // constructor() {
+  //   this.userDao = new UserDao()
+  // }
 
   login: async (req, res, next) => {
     try {
       const { username, password } = req.body
       // const [user, task] = await Promise.all([findByUsernameAndPassword(username, password), findByUsername(username)])
-      const user = await findByUsernameAndPassword(username, password)
+      const user = await userDao.findByUsernameAndPassword(username, password)
       console.log(user);
       const userInfo = new UserModel(user[0])
       // const taskInfo = new TaskModel(task)
@@ -23,16 +24,13 @@ module.exports = {
   },
 
   register: async (req, res, next) => {
-    const result = await save(req.body)
+    const result = await userDao.save(req.body)
     console.log(result)
     res.send('Register Successfully')
   },
 
   modify: async (req, res, next) => {
-    try {
 
-    } catch (e) {
-
-    }
   }
+
 }

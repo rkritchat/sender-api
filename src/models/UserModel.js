@@ -1,4 +1,4 @@
-export class UserModel {
+class UserModel {
 
   constructor(userInfo) {
     this.firstname = userInfo.firstname
@@ -7,3 +7,5 @@ export class UserModel {
   }
 
 }
+
+module.exports = UserModel
