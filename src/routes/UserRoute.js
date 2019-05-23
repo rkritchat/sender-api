@@ -10,9 +10,9 @@ class UserRoute {
 
     initRouter() {
         const userService = new UserService()
-        this.router.route("/login").post(userService.login)
-        this.router.route("/register").post(userService.register)
-        this.router.route("/modify").post(userService.modify)
+        this.router.route("/login").post((req, res, next) => userService.login(req, res, next))
+        this.router.route("/register").post((req, res, next) => userService.register(req, res, next))
+        this.router.route("/modify").post((req, res, next) => userService.modify(req, res, next))
     }
 
     route() {

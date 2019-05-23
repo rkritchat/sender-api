@@ -4,9 +4,13 @@ const taskDao = new TaskDao()
 class TaskService {
     constructor() { }
     async add(req, res, next) {
-        const tmp = await taskDao.save(req.body)
-        const result = await taskDao.findById(tmp.id)
-        res.send(result)
+        try {
+            const tmp = await taskDao.save(req.body)
+            const result = await taskDao.findById(tmp.id)
+            res.send(result)
+        } catch (e) {
+            next(e)
+        }
     }
 
     async find(req, res, next) {
