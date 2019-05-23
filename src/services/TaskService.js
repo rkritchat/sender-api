@@ -1,21 +1,31 @@
 const TaskDao = require('../dao/TaskDao')
-const taskDao = new TaskDao()
+const { addTaskValidator, findTaskValidator } = require('../common/validation/TaskValidator')
+const SdException = require('../common/exception/SdException')
 
 class TaskService {
-    constructor() { }
-    async add(req, res, next) {
+
+    constructor() {
+        this.taskDao = new TaskDao()
+    }
+
+    async addTask(req, res, next) {
         try {
-            const tmp = await taskDao.save(req.body)
-            const result = await taskDao.findById(tmp.id)
+            addTaskValidator(req.body)
+            const tmp = await this.taskDao.save(req.body)
+            const result = await this.taskDao.findById(tmp.id)
             res.send(result)
         } catch (e) {
-            next(e)
+            next(new SdException(e.message))
         }
     }
 
     async find(req, res, next) {
-        const result = await taskDao.findByUsername(req.body.username)
-        res.send(result)
+        try {
+            findTaskValidator(req.body)
+            res.send(await this.taskDao.findByUsername(req.body.username))
+        } catch (e) {
+            next(new SdException(e.message))
+        }
     }
 }
 

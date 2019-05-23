@@ -1,9 +1,12 @@
 const Joi = require('@hapi/joi')
-const SdException = require('../exception/SdException')
+const Validator = require('./Validator')
+const { username, password, firstname, lastname, email } = require('../joi/UserInfoConstant')
 
-class UserValidator {
+
+class UserValidator extends Validator {
 
     constructor() {
+        super()
         this.initAllSchema()
     }
 
@@ -14,18 +17,13 @@ class UserValidator {
 
     initRegisterSchema() {
         this.registerSchema = {
-            username: Joi.string().min(6).max(25).required(),
-            password: Joi.string().min(4).max(25).required(),
-            firstname: Joi.string().max(40).required(),
-            lastname: Joi.string().max(40).required(),
-            email: Joi.string().max(40).email().required()
+            username, password, firstname, lastname, email
         }
     }
 
     initLoginSchema() {
         this.loginSchema = {
-            username: Joi.string().min(6).max(25).required(),
-            password: Joi.string().min(4).max(25).required()
+            username, password
         }
     }
 
@@ -38,14 +36,6 @@ class UserValidator {
         const { error } = Joi.validate(userInfo, this.loginSchema)
         this.thowExceptionIfErr(error)
     }
-
-    thowExceptionIfErr(error) {
-        if (error) {
-            const { details } = error
-            throw new SdException(details[0].message)
-        }
-    }
-
 }
 
 const validator = new UserValidator()

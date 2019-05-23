@@ -19,7 +19,7 @@ class UserService {
       this.validateUsername(userInfo)
       res.send(this.generateResponse(userInfo, taskInfo))
     } catch (e) {
-      next(e)
+      next(new SdException(e.message))
     }
   }
 

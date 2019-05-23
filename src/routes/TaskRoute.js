@@ -10,7 +10,7 @@ class TaskRoute {
 
     initRouter() {
         const taskService = new TaskService()
-        this.router.route('/add').put((req, res, next) => taskService.add(req, res, next))
+        this.router.route('/add').put((req, res, next) => taskService.addTask(req, res, next))
         this.router.route('/find').post((req, res, next) => taskService.find(req, res, next))
     }
 
