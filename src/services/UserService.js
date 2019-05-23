@@ -2,6 +2,7 @@ const _ = require('underscore')
 const UserDao = require('../dao/UserDao')
 const TaskDao = require('../dao/TaskDao')
 const SdException = require('../common/exception/SdException')
+const { registerValidator, loginValidator } = require('../common/validation/UserValidator')
 
 class UserService {
 
@@ -12,22 +13,27 @@ class UserService {
 
   async login(req, res, next) {
     try {
+      loginValidator(req.body)
       const { username, password } = req.body
       const [userInfo, taskInfo] = await Promise.all([this.userDao.findByUsernameAndPassword(username, password), this.taskDao.findByUsername(username)])
       this.validateUsername(userInfo)
       res.send(this.generateResponse(userInfo, taskInfo))
     } catch (e) {
-      console.log(e);
       next(e)
     }
   }
 
   async register(req, res, next) {
-    const userInfo = await this.userDao.findByUsername(req.body.username)
-    if (!_.isEmpty(userInfo)) {
-      next(new SdException('Username already exist'))
-    } else {
-      res.send(await this.userDao.save(req.body))
+    try {
+      registerValidator(req.body)
+      const userInfo = await this.userDao.findByUsername(req.body.username)
+      if (!_.isEmpty(userInfo)) {
+        next(new SdException('Username already exist.'))
+      } else {
+        res.send(await this.userDao.save(req.body))
+      }
+    } catch (e) {
+      next(new SdException(e.message))
     }
   }
 
@@ -37,7 +43,7 @@ class UserService {
 
   validateUsername(userInfo) {
     if (_.isEmpty(userInfo)) {
-      throw new SdException('Username or Password is invalid')
+      throw new SdException('Username or Password is invalid.')
     }
   }
 
