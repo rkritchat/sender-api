@@ -2,7 +2,7 @@ const _ = require('underscore')
 const UserDao = require('../dao/UserDao')
 const TaskDao = require('../dao/TaskDao')
 const SdException = require('../common/exception/SdException')
-const { registerValidator, loginValidator } = require('../common/validation/UserValidator')
+const { registerValidator, loginValidator } = require('../common/validatior/UserValidator')
 
 class UserService {
 

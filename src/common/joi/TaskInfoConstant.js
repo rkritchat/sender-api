@@ -8,7 +8,7 @@ class TaskInfoConstant {
         return Joi.object().keys({
             taskName: Joi.string().max(70).required(),
             taskDesc: Joi.string().max(1000).required(),
-            taskProgress: Joi.string().max(3).required()
+            taskProgress: Joi.number().integer().min(0).max(100).required()
         }).required()
     }
 }

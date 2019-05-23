@@ -1,5 +1,5 @@
 const TaskDao = require('../dao/TaskDao')
-const { addTaskValidator, findTaskValidator } = require('../common/validation/TaskValidator')
+const { addTaskValidator, findTaskValidator } = require('../common/validatior/TaskValidator')
 const SdException = require('../common/exception/SdException')
 
 class TaskService {
