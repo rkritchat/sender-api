@@ -2,6 +2,7 @@ const _ = require('underscore')
 const TaskModel = require('../models/TaskModel')
 
 class TaskDao {
+
     constructor() { }
 
     findByUsername(username) {
@@ -16,6 +17,7 @@ class TaskDao {
         const { username, task } = body
         return new TaskModel({ username, task }).save()
     }
+
 }
 
 module.exports = TaskDao

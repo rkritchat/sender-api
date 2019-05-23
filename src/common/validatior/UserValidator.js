@@ -36,6 +36,7 @@ class UserValidator extends Validator {
         const { error } = Joi.validate(userInfo, this.loginSchema)
         this.thowExceptionIfErr(error)
     }
+
 }
 
 const validator = new UserValidator()

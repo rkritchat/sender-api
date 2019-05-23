@@ -18,6 +18,7 @@ class UserRoute {
     route() {
         return this.router
     }
+
 }
 
 module.exports = UserRoute

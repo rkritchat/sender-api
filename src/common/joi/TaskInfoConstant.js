@@ -1,8 +1,8 @@
 const Joi = require('@hapi/joi')
 
 class TaskInfoConstant {
-    constructor() {
-    }
+
+    constructor() { }
 
     task() {
         return Joi.object().keys({
@@ -11,6 +11,7 @@ class TaskInfoConstant {
             taskProgress: Joi.number().integer().min(0).max(100).required()
         }).required()
     }
+
 }
 
 const cons = new TaskInfoConstant()

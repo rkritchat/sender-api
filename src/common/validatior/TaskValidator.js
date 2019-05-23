@@ -4,6 +4,7 @@ const { username } = require('../joi/UserInfoConstant')
 const { task } = require('../joi/TaskInfoConstant')
 
 class TaskValidator extends Validator {
+
     constructor() {
         super()
         this.initAllSchema()

@@ -27,6 +27,7 @@ class TaskService {
             next(new SdException(e.message))
         }
     }
+
 }
 
 module.exports = TaskService
