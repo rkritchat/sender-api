@@ -19,7 +19,7 @@ class TaskService {
         }
     }
 
-    async find(req, res, next) {
+    async findTask(req, res, next) {
         try {
             findTaskValidator(req.body)
             res.send(await this.taskDao.findByUsername(req.body.username))

@@ -14,4 +14,4 @@ class UserModel {
 
 }
 
-module.exports = mongoose.model('userInfo', new UserModel().schema, 'userInfo')
+module.exports.UserModel = mongoose.model('userInfo', new UserModel().schema, 'userInfo')

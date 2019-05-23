@@ -15,4 +15,7 @@ class TaskInfoConstant {
 }
 
 const cons = new TaskInfoConstant()
-module.exports.task = cons.task()
+
+module.exports = {
+    task: cons.task()
+}

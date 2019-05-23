@@ -26,8 +26,11 @@ class UserInfoConstant {
 }
 
 const cons = new UserInfoConstant()
-module.exports.username = cons.username()
-module.exports.password = cons.password()
-module.exports.firstname = cons.firstname()
-module.exports.lastname = cons.lastname()
-module.exports.email = cons.email()
+
+module.exports = {
+    username: cons.username(),
+    password: cons.password(),
+    firstname: cons.firstname(),
+    lastname: cons.lastname(),
+    email: cons.email()
+}

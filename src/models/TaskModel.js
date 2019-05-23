@@ -17,4 +17,4 @@ class TaskModel {
 
 
 
-module.exports = mongoose.model('taskInfo', new TaskModel().schema, 'taskInfo')
+module.exports.TaskModel = mongoose.model('taskInfo', new TaskModel().schema, 'taskInfo')

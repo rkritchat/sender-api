@@ -40,9 +40,10 @@ class TaskValidator extends Validator {
 }
 
 const validator = new TaskValidator()
-module.exports.addTaskValidator = (taskInfo) => validator.validateTaskInfoOnAddTask(taskInfo)
-module.exports.findTaskValidator = (taskInfo) => validator.validateTaskInfoOnFindTask(taskInfo)
 
-
+module.exports = {
+    addTaskValidator: (taskInfo) => validator.validateTaskInfoOnAddTask(taskInfo),
+    findTaskValidator: (taskInfo) => validator.validateTaskInfoOnFindTask(taskInfo)
+}
 
 

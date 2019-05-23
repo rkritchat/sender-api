@@ -1,5 +1,5 @@
 const _ = require('underscore')
-const TaskModel = require('../models/TaskModel')
+const { TaskModel } = require('../models/TaskModel')
 
 class TaskDao {
 

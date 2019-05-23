@@ -40,5 +40,8 @@ class UserValidator extends Validator {
 }
 
 const validator = new UserValidator()
-module.exports.registerValidator = (userInfo) => validator.validateUserInfoOnRegister(userInfo)
-module.exports.loginValidator = (userInfo) => validator.validateUserInfoOnLogin(userInfo)
+
+module.exports = {
+    registerValidator: (userInfo) => validator.validateUserInfoOnRegister(userInfo),
+    loginValidator: (userInfo) => validator.validateUserInfoOnLogin(userInfo)
+}
