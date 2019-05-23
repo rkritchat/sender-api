@@ -1,11 +1,17 @@
+const mongoose = require('mongoose')
+
 class UserModel {
 
-  constructor(userInfo) {
-    this.firstname = userInfo.firstname
-    this.lastname = userInfo.lastname
-    this.email = userInfo.email
+  constructor() {
+    this.schema = mongoose.Schema({
+      username: String,
+      password: String,
+      firstname: String,
+      lastname: String,
+      email: String
+    })
   }
 
 }
 
-module.exports = UserModel
+module.exports = mongoose.model('userInfo', new UserModel().schema, 'userInfo')

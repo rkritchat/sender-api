@@ -1,31 +1,23 @@
 const _ = require('underscore')
 const mongoose = require('mongoose')
+const UserSchema = require('../models/UserModel')
 
 class UserDao {
 
     constructor() {
-        this.schema = mongoose.Schema({
-            username: String,
-            password: String,
-            firstname: String,
-            lastname: String,
-            email: String
-        })
-        this.UserInfo = new mongoose.model('userInfo', this.schema, 'userInfo')
     }
 
     findByUsernameAndPassword(username, password) {
-        return this.UserInfo.find({ username, password }).limit(1)
+        return UserSchema.find({ username, password }).limit(1)
     }
 
     findByUsername(username) {
-        return this.UserInfo.find({ username })
+        return UserSchema.find({ username })
     }
 
     save(body) {
         const { username, password, firstname, lastname, email } = body
-        const userDao = new this.UserInfo({ username, password, firstname, lastname, email })
-        return userDao.save()
+        return new UserSchema({ username, password, firstname, lastname, email }).save()
     }
 }
 

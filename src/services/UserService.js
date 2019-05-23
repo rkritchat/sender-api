@@ -1,18 +1,17 @@
 const _ = require('underscore')
 const UserDao = require('../dao/UserDao')
-const UserModel = require('../models/UserModel')
+const TaskDao = require('../dao/TaskDao')
 const userDao = new UserDao()
+const taskDao = new TaskDao()
 
 class UserService {
+
   constructor() { }
   async login(req, res, next) {
     try {
       const { username, password } = req.body
-      // const [user, task] = await Promise.all([findByUsernameAndPassword(username, password), findByUsername(username)])
-      const user = await userDao.findByUsernameAndPassword(username, password)
-      const userInfo = new UserModel(user[0])
-      // const taskInfo = new TaskModel(task)
-      res.send(userInfo) //, taskInfo
+      const [user, task] = await Promise.all([userDao.findByUsernameAndPassword(username, password), taskDao.findByUsername(username)])
+      res.send({ user: user[0], task })
     } catch (e) {
       console.log(e);
       res.status(400).send(e)
