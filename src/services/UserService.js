@@ -48,7 +48,7 @@ class UserService {
   }
 
   generateResponse(custInfo, taskInfo) {
-    return { custInfo: custInfo[0], taskInfo }
+    return { custInfo, taskInfo }
   }
 
 }

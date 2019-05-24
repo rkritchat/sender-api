@@ -6,11 +6,11 @@ class UserDao {
     constructor() { }
 
     findByUsernameAndPassword(username, password) {
-        return UserModel.find({ username, password }).limit(1)
+        return UserModel.findOne({ username, password })
     }
 
     findByUsername(username) {
-        return UserModel.find({ username })
+        return UserModel.findOne({ username })
     }
 
     save(body) {
