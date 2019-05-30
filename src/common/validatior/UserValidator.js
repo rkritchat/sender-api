@@ -1,6 +1,6 @@
 const Joi = require('@hapi/joi')
 const Validator = require('./Validator')
-const { username, password, firstname, lastname, email } = require('../joi/UserInfoConstant')
+const { username, password, firstname, lastname, email, newPassword } = require('../joi/UserInfoConstant')
 
 
 class UserValidator extends Validator {
@@ -13,6 +13,8 @@ class UserValidator extends Validator {
     initAllSchema() {
         this.initRegisterSchema()
         this.initLoginSchema()
+        this.initUpdateInfoSchema()
+        this.initUpdatePwdSchema()
     }
 
     initRegisterSchema() {
@@ -27,6 +29,18 @@ class UserValidator extends Validator {
         }
     }
 
+    initUpdateInfoSchema() {
+        this.updateInfoSchema = {
+            username, firstname, lastname, email
+        }
+    }
+
+    initUpdatePwdSchema() {
+        this.updatePwdSchema = {
+            username, password, newPassword
+        }
+    }
+
     validateUserInfoOnRegister(userInfo) {
         const { error } = Joi.validate(userInfo, this.registerSchema)
         this.thowExceptionIfErr(error)
@@ -37,11 +51,23 @@ class UserValidator extends Validator {
         this.thowExceptionIfErr(error)
     }
 
+    validateUserInfoOnUpdateInfo(userInfo) {
+        const { error } = Joi.validate(userInfo, this.updateInfoSchema)
+        this.thowExceptionIfErr(error)
+    }
+
+    validateUserInfoOnUpdatePwd(userInfo) {
+        const { error } = Joi.validate(userInfo, this.updatePwdSchema)
+        this.thowExceptionIfErr(error)
+    }
+
 }
 
 const validator = new UserValidator()
 
 module.exports = {
     registerValidator: (userInfo) => validator.validateUserInfoOnRegister(userInfo),
-    loginValidator: (userInfo) => validator.validateUserInfoOnLogin(userInfo)
+    loginValidator: (userInfo) => validator.validateUserInfoOnLogin(userInfo),
+    updateInfoValidator: (userInfo) => validator.validateUserInfoOnUpdateInfo(userInfo),
+    updatePwdValidator: (userInfo) => validator.validateUserInfoOnUpdatePwd(userInfo)
 }

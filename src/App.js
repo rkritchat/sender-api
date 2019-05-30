@@ -2,8 +2,8 @@ const express = require('express')
 const morgan = require('morgan')
 const mongoose = require('mongoose')
 const dotenv = require('dotenv')
-const UserRoute = require('./routes/UserRoute')
-const TaskRoute = require('./routes/TaskRoute')
+const { userRoute } = require('./routes/UserRoute')
+const { taskRoute } = require('./routes/TaskRoute')
 
 class App {
 
@@ -22,8 +22,8 @@ class App {
 
   initRoute() {
     this.app.use(express.json())
-    this.app.use("/user", new UserRoute().route())
-    this.app.use("/task", new TaskRoute().route())
+    this.app.use("/user", userRoute)
+    this.app.use("/task", taskRoute)
     this.app.use(morgan('tiny'))
   }
 

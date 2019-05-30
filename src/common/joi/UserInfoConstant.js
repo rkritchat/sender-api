@@ -23,6 +23,10 @@ class UserInfoConstant {
     email() {
         return Joi.string().max(40).email().required()
     }
+
+    newPassword() {
+        return Joi.string().min(4).max(25).required()
+    }
 }
 
 const cons = new UserInfoConstant()
@@ -32,5 +36,6 @@ module.exports = {
     password: cons.password(),
     firstname: cons.firstname(),
     lastname: cons.lastname(),
-    email: cons.email()
+    email: cons.email(),
+    newPassword: cons.newPassword()
 }
