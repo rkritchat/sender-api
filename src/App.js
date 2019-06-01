@@ -4,6 +4,8 @@ const mongoose = require('mongoose')
 const dotenv = require('dotenv')
 const { userRoute } = require('./routes/UserRoute')
 const { taskRoute } = require('./routes/TaskRoute')
+const https = require('https')
+const fs = require('fs')
 
 class App {
 
@@ -25,6 +27,9 @@ class App {
     this.app.use("/user", userRoute)
     this.app.use("/task", taskRoute)
     this.app.use(morgan('tiny'))
+    this.app.get('/testt', (req, res) => {
+      res.send('Hello world')
+    })
   }
 
   handle404() {
@@ -59,7 +64,16 @@ class App {
     });
   }
 
+  getApp() {
+    return this.app
+  }
+
 }
 
 const app = new App()
-app.start()
+https.createServer({
+  key: fs.readFileSync(__dirname + '/resource/server.key'),
+  cert: fs.readFileSync(__dirname + '/resource/server.cert')
+}, app.getApp()).listen(3400, () => {
+  console.log('listening on port 34000');
+})

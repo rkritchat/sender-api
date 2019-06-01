@@ -18,6 +18,7 @@ class UserService {
       const { username, password } = req.body
       const [userInfo, taskInfo] = await Promise.all([this.userDao.findByUsernameAndPassword(username, password), this.taskDao.findByUsername(username)])
       this.validateUsername(userInfo)
+      console.log('test');
       res.send(this.generateResponse(userInfo, taskInfo))
     } catch (e) {
       next(new SdException(e.message))
