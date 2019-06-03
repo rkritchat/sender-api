@@ -1,14 +1,9 @@
-const TaskDao = require('../dao/TaskDao')
 const { addTaskValidator, findTaskValidator, deleteTaskValidator } = require('../common/validatior/TaskValidator')
+const { validateTaskIdAndUsername, deleteTask, findTaskByUsername, saveTask, findTaskById } = require('../helper/TaskHelper')
 const SdException = require('../common/exception/SdException')
 const CommonRsModel = require('../models/CommonRsModel')
-const { validateTaskIdAndUsername, deleteTask, findTaskByUsername, saveTask, findTaskById } = require('../helper/TaskHelper')
 
 class TaskService {
-
-    constructor() {
-        this.taskDao = new TaskDao()
-    }
 
     async addTask(req, res, next) {
         try {
