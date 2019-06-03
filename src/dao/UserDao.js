@@ -25,7 +25,6 @@ class UserDao {
 
     updatePwd(userInfo) {
         const { username, password, newPassword } = userInfo
-        console.log(password, newPassword);
         return UserModel.updateOne({ username, password }, { $set: { password: newPassword } })
     }
 
