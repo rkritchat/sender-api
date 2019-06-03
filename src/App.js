@@ -6,6 +6,7 @@ const { userRoute } = require('./routes/UserRoute')
 const { taskRoute } = require('./routes/TaskRoute')
 const https = require('https')
 const fs = require('fs')
+const { emailRoute } = require('./routes/EmailRoute')
 
 class App {
 
@@ -26,6 +27,7 @@ class App {
     this.app.use(express.json())
     this.app.use("/user", userRoute)
     this.app.use("/task", taskRoute)
+    this.app.use("/email", emailRoute)
     this.app.use(morgan('tiny'))
     this.app.get('/testt', (req, res) => {
       res.send('Hello world')
