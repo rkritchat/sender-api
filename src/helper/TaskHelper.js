@@ -23,10 +23,21 @@ class TaskHelper {
 
     async deleteTask(body) {
         const result = await this.taskDao.delete(body)
-        console.log(result);
         if (result && !_.isEqual(result.n, 1)) {
             throw new SdException('Databases Exception')
         }
+    }
+
+    async findTaskByUsername(body) {
+        return this.taskDao.findByUsername(body.username)
+    }
+
+    async saveTask(body) {
+        return this.taskDao.save(body)
+    }
+
+    async findTaskById(id) {
+        return this.taskDao.findById(id)
     }
 }
 
@@ -34,5 +45,8 @@ const taskHelper = new TaskHelper()
 
 module.exports = {
     validateTaskIdAndUsername: (body) => taskHelper.validateTaskByTaskIdAndUseranme(body),
-    deleteTask: (body) => taskHelper.deleteTask(body)
+    deleteTask: (body) => taskHelper.deleteTask(body),
+    findTaskByUsername: (body) => taskHelper.findTaskByUsername(body),
+    saveTask: (body) => taskHelper.saveTask(body),
+    findTaskById: (id) => taskHelper.findTaskById(id)
 }

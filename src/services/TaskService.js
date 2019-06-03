@@ -2,7 +2,7 @@ const TaskDao = require('../dao/TaskDao')
 const { addTaskValidator, findTaskValidator, deleteTaskValidator } = require('../common/validatior/TaskValidator')
 const SdException = require('../common/exception/SdException')
 const CommonRsModel = require('../models/CommonRsModel')
-const { validateTaskIdAndUsername, deleteTask } = require('../helper/TaskHelper')
+const { validateTaskIdAndUsername, deleteTask, findTaskByUsername, saveTask, findTaskById } = require('../helper/TaskHelper')
 
 class TaskService {
 
@@ -13,9 +13,8 @@ class TaskService {
     async addTask(req, res, next) {
         try {
             addTaskValidator(req.body)
-            const tmp = await this.taskDao.save(req.body)
-            const result = await this.taskDao.findById(tmp.id)
-            res.send(result)
+            const { id } = await saveTask(req.body)
+            res.send(await findTaskById(id))
         } catch (e) {
             next(new SdException(e.message))
         }
@@ -24,7 +23,7 @@ class TaskService {
     async findTask(req, res, next) {
         try {
             findTaskValidator(req.body)
-            res.send(await this.taskDao.findByUsername(req.body.username))
+            res.send(await findTaskByUsername(req.body))
         } catch (e) {
             next(new SdException(e.message))
         }
@@ -41,7 +40,6 @@ class TaskService {
             next(new SdException(e.message))
         }
     }
-
 
 }
 
