@@ -1,7 +1,7 @@
 const Joi = require('@hapi/joi')
 const Validator = require('./Validator')
 const { username } = require('../joi/UserInfoConstant')
-const { task } = require('../joi/TaskInfoConstant')
+const { task, _id } = require('../joi/TaskInfoConstant')
 
 class TaskValidator extends Validator {
 
@@ -13,6 +13,7 @@ class TaskValidator extends Validator {
     initAllSchema() {
         this.initAddTaskSchema()
         this.initFindTaskSchema()
+        this.initDeleteTaskSchema()
     }
 
     initAddTaskSchema() {
@@ -27,6 +28,12 @@ class TaskValidator extends Validator {
         }
     }
 
+    initDeleteTaskSchema() {
+        this.deleteTaskSchema = {
+            username, _id
+        }
+    }
+
     validateTaskInfoOnAddTask(taskInfo) {
         const { error } = Joi.validate(taskInfo, this.addTaskSchema)
         this.thowExceptionIfErr(error)
@@ -37,13 +44,19 @@ class TaskValidator extends Validator {
         this.thowExceptionIfErr(error)
     }
 
+    validateTaskInfoOnDeleteTask(taskInfo) {
+        const { error } = Joi.validate(taskInfo, this.deleteTaskSchema)
+        this.thowExceptionIfErr(error)
+    }
+
 }
 
 const validator = new TaskValidator()
 
 module.exports = {
     addTaskValidator: (taskInfo) => validator.validateTaskInfoOnAddTask(taskInfo),
-    findTaskValidator: (taskInfo) => validator.validateTaskInfoOnFindTask(taskInfo)
+    findTaskValidator: (taskInfo) => validator.validateTaskInfoOnFindTask(taskInfo),
+    deleteTaskValidator: (taskInfo) => validator.validateTaskInfoOnDeleteTask(taskInfo)
 }
 
 

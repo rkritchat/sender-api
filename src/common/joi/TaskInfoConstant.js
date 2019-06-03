@@ -12,10 +12,20 @@ class TaskInfoConstant {
         }).required()
     }
 
+    taskName() {
+        return Joi.string().max(70).required()
+    }
+
+    taskId() {
+        return Joi.string().required()
+    }
+
 }
 
 const cons = new TaskInfoConstant()
 
 module.exports = {
-    task: cons.task()
+    task: cons.task(),
+    taskName: cons.taskName(),
+    _id: cons.taskId()
 }
