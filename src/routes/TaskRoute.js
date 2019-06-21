@@ -21,5 +21,4 @@ class TaskRoute {
 
 }
 
-const taskRoute = new TaskRoute()
-module.exports.taskRoute = taskRoute.route()
+module.exports = new TaskRoute().route()

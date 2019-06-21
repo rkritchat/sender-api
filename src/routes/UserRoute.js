@@ -22,5 +22,4 @@ class UserRoute {
 
 }
 
-const userRoute = new UserRoute()
-module.exports.userRoute = userRoute.route()
+module.exports = new UserRoute().route()

@@ -18,5 +18,4 @@ class EmailRoute {
     }
 }
 
-const emailRoute = new EmailRoute()
-module.exports.emailRoute = emailRoute.getRoute()
+module.exports = new EmailRoute().getRoute()

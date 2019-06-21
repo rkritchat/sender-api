@@ -26,9 +26,9 @@ class UserHelper {
     }
   }
 
-  async findByUsernameAndPassword(body) {
-    const { username, password } = body
-    const [userInfo, taskInfo] = await Promise.all([this.userDao.findByUsernameAndPassword(username, password), this.taskDao.findByUsername(username)])
+  async findUserInfoAndTask(body) {
+    const { username } = body
+    const [userInfo, taskInfo] = await Promise.all([this.userDao.findByUsername(username), this.taskDao.findByUsername(username)])
     if (_.isEmpty(userInfo)) {
       throw new SdException('Username or Password is invalid.')
     }
@@ -57,7 +57,7 @@ module.exports = {
   validateUserByUseranme: body => userHelper.validateUserByUseranme(body),
   createUser: (body) => userHelper.createUser(body),
   updateUserInfo: body => userHelper.updateUserInfo(body),
-  findByUsernameAndPassword: body => userHelper.findByUsernameAndPassword(body),
+  findUserInfoAndTask: body => userHelper.findUserInfoAndTask(body),
   validateOldPassword: body => userHelper.validateOldPassword(body),
   updatePasssword: body => userHelper.updatePasssword(body)
 };
