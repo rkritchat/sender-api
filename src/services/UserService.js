@@ -1,9 +1,8 @@
 const _ = require('underscore')
-const { validateUserByUseranme, createUser, updateUserInfo, findUserInfoAndTask, validateOldPassword, updatePasssword } = require('../helper/UserHelper')
+const { validateUserByUseranme, createUser, updateUserInfo, findUserInfoAndTask, validateOldPassword, updatePasssword, hashPassword, validatePassword } = require('../helper/UserHelper')
 const { registerValidator, loginValidator, updateInfoValidator, updatePwdValidator } = require('../common/validatior/UserValidator')
 const SdException = require('../common/exception/SdException')
 const CommonRsModel = require('../models/CommonRsModel')
-const bcrypt = require('bcryptjs')
 
 class UserService {
 
@@ -14,8 +13,7 @@ class UserService {
     try {
       loginValidator(req.body)
       const result = await findUserInfoAndTask(req.body)
-      const isMatch = await this.validatePassword(result.userInfo, req.body)
-      if (!isMatch) throw new SdException('Invalid Credentials')
+      await validatePassword(result.userInfo, req.body)
       res.send(result)
     } catch (e) {
       next(new SdException(e.message))
@@ -27,7 +25,7 @@ class UserService {
       const body = req.body
       registerValidator(body)
       await validateUserByUseranme(body)
-      body.password = await this.hashPassword(body)
+      await hashPassword(body)
       res.send(await createUser(body))
     } catch (e) {
       next(new SdException(e.message))
@@ -56,16 +54,6 @@ class UserService {
     }
   }
 
-  async hashPassword(body) {
-    const { password } = body
-    const salt = await bcrypt.genSalt(10)
-    return await bcrypt.hash(password, salt)
-  }
-
-  async validatePassword(userInfo, body) {
-    const { password } = userInfo
-    return await bcrypt.compare(body.password, password)
-  }
 }
 
 module.exports = UserService

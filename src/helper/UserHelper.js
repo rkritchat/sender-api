@@ -2,6 +2,7 @@ const _ = require("underscore");
 const UserDao = require("../dao/UserDao");
 const SdException = require("../common/exception/SdException");
 const TaskDao = require("../dao/TaskDao");
+const bcrypt = require('bcryptjs')
 
 class UserHelper {
 
@@ -49,6 +50,18 @@ class UserHelper {
       throw new SdException('Databases Exception')
     }
   }
+
+  async hashPassword(body) {
+    const { password } = body
+    const salt = await bcrypt.genSalt(10)
+    body.password = await bcrypt.hash(password, salt)
+  }
+
+  async validatePassword(userInfo, body) {
+    const { password } = userInfo
+    const isMatch = await bcrypt.compare(body.password, password)
+    if (!isMatch) throw new SdException('Invalid Credentials')
+  }
 }
 
 const userHelper = new UserHelper();
@@ -59,5 +72,7 @@ module.exports = {
   updateUserInfo: body => userHelper.updateUserInfo(body),
   findUserInfoAndTask: body => userHelper.findUserInfoAndTask(body),
   validateOldPassword: body => userHelper.validateOldPassword(body),
-  updatePasssword: body => userHelper.updatePasssword(body)
+  updatePasssword: body => userHelper.updatePasssword(body),
+  hashPassword: (body) => userHelper.hashPassword(body),
+  validatePassword: (userInfo, body) => userHelper.validatePassword(userInfo, body)
 };
